@@ -1,8 +1,7 @@
 import {ToyChain} from './src/ToyChain'
 import {genProof} from './src/hash'
-var crypto = require('crypto');
 
-// const tc = new ToyChain()
+const tc = new ToyChain()
 // const genesisBlock = tc.newBlock(0)
 // const genesisHash = tc.hash(genesisBlock)
 
@@ -25,3 +24,4 @@ var crypto = require('crypto');
 // mining
 
 console.log(genProof(5))
+console.log(tc.validateProof(5,22))

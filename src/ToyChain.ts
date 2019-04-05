@@ -1,8 +1,7 @@
 // https://hackernoon.com/learn-blockchains-by-building-one-117428612f46
 
-import {myHash} from './hash'
+import {myHash, sha256} from './hash'
 import {IBlock, ITransaction} from './models'
-import * as sha256 from 'fast-sha256'
 
 export class ToyChain {
   private chain:Array<IBlock> = []
@@ -55,12 +54,8 @@ export class ToyChain {
    * @param proof current proof
    */
   validateProof(lastProof: number, proof: number):boolean {
-    const guessStr: string = `${lastProof}${proof}`
-    const enc = new TextEncoder()
-    const guessBuf: Uint8Array = enc.encode(guessStr)
-    const hashedGuess: string = String(sha256.hash(guessBuf))
-
-    return hashedGuess === '0000'
+    const hash: string = sha256(String(lastProof * proof))
+    return hash.slice(-1) !== '0'
   }
   proofOfWork(lastProof: number): number {
     let proof: number = 0
