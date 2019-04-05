@@ -47,12 +47,6 @@ export class ToyChain {
 
     return this.lastBlock()
   }
-
-  /**
-   * does hash(lastProof, proof) contain 4 leading zeroes?
-   * @param lastProof previous proof
-   * @param proof current proof
-   */
   validateProof(lastProof: number, proof: number):boolean {
     const hash: string = sha256(String(lastProof * proof))
     return hash.slice(-1) !== '0'

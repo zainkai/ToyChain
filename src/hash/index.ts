@@ -11,7 +11,6 @@ export const myHash = (block:IBlock): string => {
   return hashedData
 }
 
-
 export const genProof = (x: number):number => {
   let y: number = 0, hash: string
   do {
