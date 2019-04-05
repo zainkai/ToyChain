@@ -60,7 +60,7 @@ export class ToyChain {
     const guessBuf: Uint8Array = enc.encode(guessStr)
     const hashedGuess: string = String(sha256.hash(guessBuf))
 
-    return hashedGuess.substring(0,4) === '0000'
+    return hashedGuess === '0000'
   }
   proofOfWork(lastProof: number): number {
     let proof: number = 0
