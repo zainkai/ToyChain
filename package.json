@@ -1,0 +1,28 @@
+{
+  "name": "toychain",
+  "version": "0.0.1",
+  "description": "toy block chain in javascript, exercising atwoods law.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "babel-node --extensions \".ts\" ./index.ts"
+  },
+  "keywords": [
+    "blockchain",
+    "block",
+    "chain",
+    "toy",
+    "example"
+  ],
+  "author": "Kevin Turkington (zainkai)",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-typescript": "^7.3.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "fast-sha256": "^1.1.0",
+    "uuid": "^3.3.2"
+  }
+}
