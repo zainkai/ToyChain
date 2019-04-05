@@ -10,4 +10,3 @@ export const myHash = (block:IBlock): string => {
 
   return String(hashedData)
 }
-
