@@ -1,5 +1,5 @@
-import {IToyBlock, ITransaction} from './models'
-import {sha256} from './hash'
+import {IToyBlock, ITransaction, THashFunc} from './models'
+import {sha256, blockHash} from './hash'
 
 export class ToyBlock implements IToyBlock {
   readonly index: number
@@ -9,6 +9,7 @@ export class ToyBlock implements IToyBlock {
   readonly miningDifficulty: number
   private nonce: number
   private hash: string
+  private readonly hashFunc: THashFunc
   constructor(block: IToyBlock) {
     this.index = block.index
     this.timestamp = new Date(Date.now()).toISOString()
@@ -17,9 +18,11 @@ export class ToyBlock implements IToyBlock {
     this.previousHash = block.previousHash
     this.hash = ''
     this.miningDifficulty = block.miningDifficulty || 3
+    this.hashFunc = blockHash
   }
   private genBlockHash(): string {
-    return sha256(`${this.index}${this.timestamp}${JSON.stringify(this.transactions)}${this.nonce}${this.previousHash}${this.miningDifficulty}`)
+    const self = this.getSelf()
+    return this.hashFunc(self, this.nonce)
   }
   private _GenDifficultyKey() { return Array(this.miningDifficulty + 1).join('0') }
 
@@ -35,4 +38,5 @@ export class ToyBlock implements IToyBlock {
   }
   public getNonce(): number { return this.nonce }
   public getHash(): string { return this.hash }
+  private getSelf(): IToyBlock { return this}
 }

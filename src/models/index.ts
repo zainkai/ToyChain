@@ -1,5 +1,6 @@
 export interface IToyBlock {
   readonly index: number,
+  readonly timestamp?: number|string
   readonly previousHash: string
   readonly transactions: Array<ITransaction>
   readonly miningDifficulty?: number
@@ -17,3 +18,5 @@ export interface IConfig {
   reward?: number
 }
 
+export type THashFunc = (block: IToyBlock, nonce: number) => string
+export type TCurriedHashFunc = (nonce: number) => string

@@ -2,11 +2,9 @@
 // https://www.savjee.be/2018/10/Signing-transactions-blockchain-javascript/
 
 import {sha256} from './hash'
-import {ITransaction, IConfig} from './models'
+import {ITransaction, IConfig, TCurriedHashFunc} from './models'
 import {ToyBlock} from './ToyBlock'
 
-
-type hasherFunc = (tempNonce?: number) => string
 export class ToyChain {
   private chain:Array<ToyBlock>
   private pendingTransactions: Array<ITransaction>
@@ -50,16 +48,16 @@ export class ToyChain {
   _GenDifficultyKey() { return Array(this.miningDifficulty + 1).join('0') }
 
   
-  validateNonce(nonce: number, hasher: hasherFunc): void {
+  validateNonce(nonce: number, hasher: TCurriedHashFunc): boolean {
     const prefixKey: string = this._GenDifficultyKey()
     let genNonce = 0
     let genHash = hasher(0)
 
-    console.log('sadasd'+ genHash)
     while(genHash.substring(0, this.miningDifficulty) !== prefixKey) {
       genNonce += 1
       genHash = hasher(genNonce)
     }
-    console.log(`${nonce} ${genNonce}`)
+    
+    return nonce === genNonce
   }
 }
