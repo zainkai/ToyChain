@@ -1,5 +1,5 @@
 import {IToyBlock, ITransaction, THashFunc} from './models'
-import {sha256, blockHash} from './hash'
+import {blockHash} from './hash'
 
 export class ToyBlock implements IToyBlock {
   readonly index: number
@@ -38,5 +38,5 @@ export class ToyBlock implements IToyBlock {
   }
   public getNonce(): number { return this.nonce }
   public getHash(): string { return this.hash }
-  private getSelf(): IToyBlock { return this}
+  public getSelf(): IToyBlock { return this }
 }

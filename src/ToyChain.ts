@@ -42,22 +42,17 @@ export class ToyChain {
   }
 
   mineTransactions() {
-
+    // TODO: implement
   }
 
   _GenDifficultyKey() { return Array(this.miningDifficulty + 1).join('0') }
-
-  
   validateNonce(nonce: number, hasher: TCurriedHashFunc): boolean {
     const prefixKey: string = this._GenDifficultyKey()
-    let genNonce = 0
-    let genHash = hasher(0)
-
+    let genNonce = 0, genHash = hasher(0)
     while(genHash.substring(0, this.miningDifficulty) !== prefixKey) {
       genNonce += 1
       genHash = hasher(genNonce)
     }
-    
     return nonce === genNonce
   }
 }
