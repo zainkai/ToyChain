@@ -19,14 +19,7 @@ export class ToyBlock implements IToyBlock {
     this.miningDifficulty = block.miningDifficulty || 3
   }
   private genBlockHash(): string {
-    return sha256(`
-      ${this.index}
-      ${this.timestamp}
-      ${JSON.stringify(this.transactions)}
-      ${this.nonce}
-      ${this.previousHash}
-      ${this.miningDifficulty}
-    `)
+    return sha256(`${this.index}${this.timestamp}${JSON.stringify(this.transactions)}${this.nonce}${this.previousHash}${this.miningDifficulty}`)
   }
   private _GenDifficultyKey() { return Array(this.miningDifficulty + 1).join('0') }
 
@@ -40,4 +33,6 @@ export class ToyBlock implements IToyBlock {
   public hasValidTransactions() {
     return true // TODO: implement
   }
+  public getNonce(): number { return this.nonce }
+  public getHash(): string { return this.hash }
 }

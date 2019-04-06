@@ -9,6 +9,7 @@ export interface ITransaction {
   sender: string // UUID
   recipient: string // UUID
   amount: number
+  note?: string
 }
 
 export interface IConfig {

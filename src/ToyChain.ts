@@ -5,12 +5,14 @@ import {sha256} from './hash'
 import {ITransaction, IConfig} from './models'
 import {ToyBlock} from './ToyBlock'
 
+
+type hasherFunc = (tempNonce?: number) => string
 export class ToyChain {
   private chain:Array<ToyBlock>
   private pendingTransactions: Array<ITransaction>
   private readonly miningDifficulty: number
   private readonly reward: number
-  constructor(config: IConfig) {
+  constructor(config: IConfig = {}) {
     this.chain = []
     this.pendingTransactions = []
     this.miningDifficulty = config.miningDifficulty || 3
@@ -41,17 +43,23 @@ export class ToyChain {
     } as ITransaction)
   }
 
-  _GenDifficultyKey() { return Array(this.miningDifficulty + 1).join('0') }
-  validateNonce(lastNonce: number, nonce: number, prefixKey: string):boolean {
-    const hash: string = sha256(String(lastNonce * nonce))
-    return hash.substring(0, this.miningDifficulty) === prefixKey
+  mineTransactions() {
+
   }
-  mineNonce(lastNonce: number): number {
-    let nonce: number = 0
+
+  _GenDifficultyKey() { return Array(this.miningDifficulty + 1).join('0') }
+
+  
+  validateNonce(nonce: number, hasher: hasherFunc): void {
     const prefixKey: string = this._GenDifficultyKey()
-    while (!this.validateNonce(lastNonce, nonce, prefixKey)) {
-      nonce += 1
+    let genNonce = 0
+    let genHash = hasher(0)
+
+    console.log('sadasd'+ genHash)
+    while(genHash.substring(0, this.miningDifficulty) !== prefixKey) {
+      genNonce += 1
+      genHash = hasher(genNonce)
     }
-    return nonce
+    console.log(`${nonce} ${genNonce}`)
   }
 }

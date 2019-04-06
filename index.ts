@@ -1,25 +1,8 @@
 import {ToyChain} from './src/ToyChain'
 import {ToyBlock} from './src/ToyBlock'
+import {sha256} from './src/hash'
 
-// const genesisBlock = tc.newBlock(0)
-// const genesisHash = tc.hash(genesisBlock)
-
-// tc.newTransaction('senderId1', 'senderId2', 5)
-// tc.newTransaction('senderId2', 'senderId3', 5)
-// const block1 = tc.newBlock(324984774000, genesisHash)
-// const hashB1 = tc.hash(block1)
-
-
-// tc.newTransaction('senderId2', 'senderId1', 5)
-// tc.newTransaction('senderId3', 'senderId2', 5)
-// const block2 = tc.newBlock(11, hashB1)
-// const hashB2 = tc.hash(block2)
-
-// console.log(genesisHash)
-// console.log(hashB1)
-// console.log(hashB2)
-
-
+const tc = new ToyChain()
 const t = new ToyBlock({
     transactions: [],
     previousHash: '',
@@ -27,4 +10,18 @@ const t = new ToyBlock({
 })
 t.mineBlock()
 
-console.log((t))
+// console.log(t.getHash())
+// console.log((t.genBlockHash(t.getNonce())))
+
+const hasherFactory = (temp?:number) => {
+  const str = ''
+    + t.index
+    + t.timestamp
+    + JSON.stringify(t.transactions)
+    + temp
+    + t.previousHash
+    + t.miningDifficulty
+
+  return sha256(str)
+}
+console.log(tc.validateNonce(t.getNonce(),  hasherFactory ))
