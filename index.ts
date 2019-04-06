@@ -22,6 +22,7 @@ const tc = new ToyChain()
 
 
 // mining
-
-console.log(genProof(5))
-console.log(tc.validateProof(5,22))
+const now = Date.now()
+const genesis = tc.mineNonce(now)
+console.log(genesis)
+console.log(tc.validateNonce(now, genesis, '000'))

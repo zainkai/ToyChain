@@ -2,7 +2,7 @@ export interface IBlock {
   index: number,
   timestamp: number|string // epoch or ISO
   transactions: Array<ITransaction>,
-  proof: number,
+  nonce: number,
   previousHash: string
 }
 
