@@ -1,7 +1,6 @@
 import {ToyChain} from './src/ToyChain'
-import {genProof} from './src/hash'
+import {ToyBlock} from './src/ToyBlock'
 
-const tc = new ToyChain()
 // const genesisBlock = tc.newBlock(0)
 // const genesisHash = tc.hash(genesisBlock)
 
@@ -21,8 +20,11 @@ const tc = new ToyChain()
 // console.log(hashB2)
 
 
-// mining
-const now = Date.now()
-const genesis = tc.mineNonce(now)
-console.log(genesis)
-console.log(tc.validateNonce(now, genesis, '000'))
+const t = new ToyBlock({
+    transactions: [],
+    previousHash: '',
+    index: 0
+})
+t.mineBlock()
+
+console.log((t))

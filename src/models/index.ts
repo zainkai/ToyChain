@@ -1,9 +1,8 @@
-export interface IBlock {
-  index: number,
-  timestamp: number|string // epoch or ISO
-  transactions: Array<ITransaction>,
-  nonce: number,
-  previousHash: string
+export interface IToyBlock {
+  readonly index: number,
+  readonly previousHash: string
+  readonly transactions: Array<ITransaction>
+  readonly miningDifficulty?: number
 }
 
 export interface ITransaction {
@@ -11,3 +10,9 @@ export interface ITransaction {
   recipient: string // UUID
   amount: number
 }
+
+export interface IConfig {
+  miningDifficulty?: number
+  reward?: number
+}
+

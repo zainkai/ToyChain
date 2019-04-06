@@ -1,48 +1,44 @@
 // https://hackernoon.com/learn-blockchains-by-building-one-117428612f46
+// https://www.savjee.be/2018/10/Signing-transactions-blockchain-javascript/
 
-import {myHash, sha256} from './hash'
-import {IBlock, ITransaction} from './models'
+import {sha256} from './hash'
+import {ITransaction, IConfig} from './models'
+import {ToyBlock} from './ToyBlock'
 
 export class ToyChain {
-  private chain:Array<IBlock>
-  private pendingTransctions: Array<ITransaction>
-  private _HashFunc:(block: IBlock) => string
-  private miningDifficulty: number
-
-  constructor() {
+  private chain:Array<ToyBlock>
+  private pendingTransactions: Array<ITransaction>
+  private readonly miningDifficulty: number
+  private readonly reward: number
+  constructor(config: IConfig) {
     this.chain = []
-    this.pendingTransctions = []
-    this._HashFunc = myHash
-    this.miningDifficulty = 3
+    this.pendingTransactions = []
+    this.miningDifficulty = config.miningDifficulty || 3
+    this.reward = config.reward || 10
   }
 
-  setDifficulty(x: number) { this.miningDifficulty = x }
-  setHashFunc(hashFunc: (b:IBlock)=> string) { this._HashFunc = hashFunc}
-  hash(block: IBlock): string { return this._HashFunc(block) }
+  getLastBlock(): ToyBlock|null {
+    return this.chain[this.chain.length -1] || null
+  }
 
-  newBlock(nonce: number, previousHash:string = ''): IBlock {
-    const block: IBlock = {
+  // this allows multiple genesis blocks
+  genGenesisBlock(): ToyBlock {
+    const {miningDifficulty} = this
+    const genesis = new ToyBlock({
       index: this.chain.length,
-      timestamp: new Date(Date.now()).toISOString(),
-      transactions: [...this.pendingTransctions],
-      nonce,
-      previousHash
-    }
-    // reset transactions
-    this.pendingTransctions = []
-    this.chain.push(block)
-
-    return block
+      miningDifficulty,
+      transactions: [],
+      previousHash: ''
+    })
+    genesis.mineBlock()
+    this.chain.push(genesis)
+    return genesis
   }
 
-  lastBlock(): IBlock { return this.chain[this.chain.length -1]}
-
-  newTransaction(sender: string, recipient: string, amount: number): IBlock {
-    this.pendingTransctions.push({
+  addTransaction(sender: string, recipient: string, amount: number) {
+    this.pendingTransactions.push({
       sender, recipient, amount
     } as ITransaction)
-
-    return this.lastBlock()
   }
 
   _GenDifficultyKey() { return Array(this.miningDifficulty + 1).join('0') }
