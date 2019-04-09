@@ -11,6 +11,6 @@ export const blockHash: THashFunc = (block, nonce) => {
     ${JSON.stringify(block.transactions)}
     ${nonce}
     ${block.previousHash}
-    ${block.miningDifficulty}
+    ${block.difficulty}
   `)
 }

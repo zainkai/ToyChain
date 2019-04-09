@@ -3,7 +3,7 @@ export interface IToyBlock {
   readonly timestamp?: number|string
   readonly previousHash: string
   readonly transactions: Array<ITransaction>
-  readonly miningDifficulty?: number
+  readonly difficulty?: number
 }
 
 export interface ITransaction {

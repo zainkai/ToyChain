@@ -3,14 +3,21 @@ import {ToyBlock} from './src/ToyBlock'
 import {blockHash} from './src/hash'
 import {TCurriedHashFunc} from './src/models'
 
-const tc = new ToyChain()
+const tc = new ToyChain({ 
+    miningDifficulty: 5
+ })
+const genesis = tc.genBlock()
 const t = new ToyBlock({
     transactions: [],
-    previousHash: '',
+    previousHash: genesis.getHash(),
     index: 0
 })
 t.mineBlock()
 
+const genesisHash = genesis.getHash()
+const genesisNonce = genesis.getNonce()
+console.log(genesis)
+console.log(t)
 
-const curried:TCurriedHashFunc = (n) => blockHash(t, n)
-console.log(tc.validateNonce(t.getNonce(), curried  ))
+console.log(genesis.validateHash(genesisHash))
+console.log(genesis.validateNonce(genesisNonce))

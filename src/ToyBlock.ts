@@ -20,9 +20,9 @@ export class ToyBlock implements IToyBlock {
     this.difficulty = block.difficulty || 3
     this.hashFunc = blockHash
   }
-  private genBlockHash(): string {
+  private genBlockHash(overrideNone?: number): string {
     const self = this.getSelf()
-    return this.hashFunc(self, this.nonce)
+    return this.hashFunc(self, overrideNone || this.nonce)
   }
   private _GenDifficultyKey() { return Array(this.difficulty + 1).join('0') }
 
@@ -39,4 +39,6 @@ export class ToyBlock implements IToyBlock {
   public getNonce(): number { return this.nonce }
   public getHash(): string { return this.hash }
   public getSelf(): IToyBlock { return this }
+  public validateHash (hash: string): boolean { return hash === this.genBlockHash() }
+  public validateNonce (nonce: number) { return this.genBlockHash() ===  this.genBlockHash(nonce)}
 }
