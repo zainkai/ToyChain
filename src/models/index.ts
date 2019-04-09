@@ -7,10 +7,10 @@ export interface IToyBlock {
 }
 
 export interface ITransaction {
-  sender: string // UUID
-  recipient: string // UUID
-  amount: number
-  note?: string
+  readonly sender: string // UUID
+  readonly recipient: string // UUID
+  readonly amount: number
+  readonly note?: string
 }
 
 export interface IConfig {
