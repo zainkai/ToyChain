@@ -26,7 +26,7 @@ export class ToyChain {
     const {miningDifficulty} = this
     const genesis = new ToyBlock({
       index: this.chain.length,
-      miningDifficulty,
+      difficulty: miningDifficulty,
       transactions: [],
       previousHash: ''
     })
@@ -54,5 +54,10 @@ export class ToyChain {
       genHash = hasher(genNonce)
     }
     return nonce === genNonce
+  }
+
+  validateHash(hash: string, block: ToyBlock) {
+    const genHash = block.getHash()
+    return hash === genHash
   }
 }
